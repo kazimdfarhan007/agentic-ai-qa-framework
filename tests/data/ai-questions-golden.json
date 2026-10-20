@@ -1,0 +1,441 @@
+{
+  "description": "Golden dataset for AI question generation (Academic Plan feature) — 30 test cases covering various grades, topics, and difficulty levels.",
+  "version": "1.0.0",
+  "rubric": {
+    "accuracy": "Questions align with provided topic and grade level",
+    "syllabus": "Questions match WBBSE/CBSE curriculum expectations",
+    "difficulty": "Difficulty matches requested level (easy/medium/hard)",
+    "safety": "Age-appropriate language for school students",
+    "latencyTargetMs": 8000
+  },
+  "cases": [
+    {
+      "id": "QST-001",
+      "tag": "standard",
+      "description": "Class 5 Math — Fractions (Easy)",
+      "input": {
+        "topic": "Fractions",
+        "subject": "Mathematics",
+        "grade": 5,
+        "difficulty": "easy",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "marksDistribution": { "VERY_SHORT": 2, "SHORT": 2, "LONG": 1 },
+      "expectedKeywords": ["fraction", "numerator", "denominator", "half", "quarter"],
+      "mustNotContain": ["calculus", "integration", "derivative"]
+    },
+    {
+      "id": "QST-002",
+      "tag": "standard",
+      "description": "Class 8 Science — Photosynthesis (Medium)",
+      "input": {
+        "topic": "Photosynthesis",
+        "subject": "Science",
+        "grade": 8,
+        "difficulty": "medium",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["chlorophyll", "sunlight", "carbon dioxide", "oxygen", "glucose"],
+      "mustNotContain": ["nuclear", "fission", "quantum"]
+    },
+    {
+      "id": "QST-003",
+      "tag": "standard",
+      "description": "Class 10 History — Indian Independence (Hard)",
+      "input": {
+        "topic": "Indian Independence Movement",
+        "subject": "History",
+        "grade": 10,
+        "difficulty": "hard",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["Gandhi", "1947", "British", "Congress", "partition"],
+      "mustNotContain": ["World War II unrelated details"]
+    },
+    {
+      "id": "QST-004",
+      "tag": "standard",
+      "description": "Class 3 English — Parts of Speech (Easy)",
+      "input": {
+        "topic": "Parts of Speech",
+        "subject": "English",
+        "grade": 3,
+        "difficulty": "easy",
+        "count": 4
+      },
+      "expectedQuestionCount": 4,
+      "expectedKeywords": ["noun", "verb", "adjective"],
+      "expectedTone": "simple, age-appropriate for 8-year-olds"
+    },
+    {
+      "id": "QST-005",
+      "tag": "standard",
+      "description": "Class 6 Geography — Rivers of India (Medium)",
+      "input": {
+        "topic": "Rivers of India",
+        "subject": "Geography",
+        "grade": 6,
+        "difficulty": "medium",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["Ganga", "river", "tributary", "India"],
+      "mustNotContain": ["Amazon", "Nile", "Mississippi"]
+    },
+    {
+      "id": "QST-006",
+      "tag": "standard",
+      "description": "Class 9 Physics — Newton's Laws (Hard)",
+      "input": {
+        "topic": "Newton's Laws of Motion",
+        "subject": "Physics",
+        "grade": 9,
+        "difficulty": "hard",
+        "count": 6
+      },
+      "expectedQuestionCount": 6,
+      "expectedKeywords": ["force", "mass", "acceleration", "inertia", "action", "reaction"]
+    },
+    {
+      "id": "QST-007",
+      "tag": "standard",
+      "description": "Class 4 EVS — Our Environment (Easy)",
+      "input": {
+        "topic": "Our Environment",
+        "subject": "Environmental Studies",
+        "grade": 4,
+        "difficulty": "easy",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["environment", "plants", "animals", "water", "air"],
+      "expectedTone": "simple, child-friendly"
+    },
+    {
+      "id": "QST-008",
+      "tag": "standard",
+      "description": "Class 7 Math — Integers (Medium)",
+      "input": {
+        "topic": "Integers",
+        "subject": "Mathematics",
+        "grade": 7,
+        "difficulty": "medium",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["integer", "positive", "negative", "number line"]
+    },
+    {
+      "id": "QST-009",
+      "tag": "standard",
+      "description": "Class 10 Chemistry — Periodic Table (Hard)",
+      "input": {
+        "topic": "Periodic Table",
+        "subject": "Chemistry",
+        "grade": 10,
+        "difficulty": "hard",
+        "count": 6
+      },
+      "expectedQuestionCount": 6,
+      "expectedKeywords": ["element", "period", "group", "valence", "atomic"]
+    },
+    {
+      "id": "QST-010",
+      "tag": "standard",
+      "description": "Class 2 Hindi — Animals (Easy)",
+      "input": {
+        "topic": "जानवर (Animals)",
+        "subject": "Hindi",
+        "grade": 2,
+        "difficulty": "easy",
+        "count": 3
+      },
+      "expectedQuestionCount": 3,
+      "expectedTone": "very simple for 7-year-olds"
+    },
+    {
+      "id": "QST-011",
+      "tag": "edge-case",
+      "description": "Very broad topic — should focus narrowly",
+      "input": {
+        "topic": "Science",
+        "subject": "Science",
+        "grade": 5,
+        "difficulty": "medium",
+        "count": 5
+      },
+      "expectedBehavior": "Generates valid questions even with a broad topic; may pick a sub-topic"
+    },
+    {
+      "id": "QST-012",
+      "tag": "edge-case",
+      "description": "Count = 1 — should return exactly one question",
+      "input": {
+        "topic": "Algebra",
+        "subject": "Mathematics",
+        "grade": 8,
+        "difficulty": "medium",
+        "count": 1
+      },
+      "expectedQuestionCount": 1
+    },
+    {
+      "id": "QST-013",
+      "tag": "edge-case",
+      "description": "Count = 20 — large batch",
+      "input": {
+        "topic": "World War II",
+        "subject": "History",
+        "grade": 9,
+        "difficulty": "hard",
+        "count": 20
+      },
+      "expectedQuestionCount": 20,
+      "latencyTargetMs": 15000
+    },
+    {
+      "id": "QST-014",
+      "tag": "standard",
+      "description": "Class 5 Math — Geometry (Medium)",
+      "input": {
+        "topic": "Basic Geometry",
+        "subject": "Mathematics",
+        "grade": 5,
+        "difficulty": "medium",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["triangle", "circle", "angle", "shape"]
+    },
+    {
+      "id": "QST-015",
+      "tag": "standard",
+      "description": "Class 8 Biology — Cell Structure (Medium)",
+      "input": {
+        "topic": "Cell Structure",
+        "subject": "Biology",
+        "grade": 8,
+        "difficulty": "medium",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["cell", "nucleus", "membrane", "cytoplasm"]
+    },
+    {
+      "id": "QST-016",
+      "tag": "standard",
+      "description": "Class 6 Civics — Government (Easy)",
+      "input": {
+        "topic": "Government and Democracy",
+        "subject": "Civics",
+        "grade": 6,
+        "difficulty": "easy",
+        "count": 4
+      },
+      "expectedQuestionCount": 4,
+      "expectedKeywords": ["government", "democracy", "vote", "election", "parliament"]
+    },
+    {
+      "id": "QST-017",
+      "tag": "standard",
+      "description": "Class 9 Math — Quadratic Equations (Hard)",
+      "input": {
+        "topic": "Quadratic Equations",
+        "subject": "Mathematics",
+        "grade": 9,
+        "difficulty": "hard",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["quadratic", "equation", "roots", "discriminant", "factorisation"]
+    },
+    {
+      "id": "QST-018",
+      "tag": "standard",
+      "description": "Class 10 English — Shakespeare (Hard)",
+      "input": {
+        "topic": "Shakespeare's Works",
+        "subject": "English Literature",
+        "grade": 10,
+        "difficulty": "hard",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["Shakespeare", "play", "character", "theme"]
+    },
+    {
+      "id": "QST-019",
+      "tag": "edge-case",
+      "description": "Unknown subject — system should handle gracefully",
+      "input": {
+        "topic": "Robotics",
+        "subject": "Technology",
+        "grade": 8,
+        "difficulty": "medium",
+        "count": 5
+      },
+      "expectedBehavior": "Returns reasonable questions or gracefully notes subject is non-standard"
+    },
+    {
+      "id": "QST-020",
+      "tag": "standard",
+      "description": "Class 3 Math — Addition and Subtraction (Easy)",
+      "input": {
+        "topic": "Addition and Subtraction",
+        "subject": "Mathematics",
+        "grade": 3,
+        "difficulty": "easy",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["add", "subtract", "sum", "difference", "total"],
+      "mustNotContain": ["algebra", "polynomial", "derivative"]
+    },
+    {
+      "id": "QST-021",
+      "tag": "standard",
+      "description": "Class 7 Geography — Climate (Medium)",
+      "input": {
+        "topic": "Climate and Weather",
+        "subject": "Geography",
+        "grade": 7,
+        "difficulty": "medium",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["climate", "weather", "temperature", "rainfall", "season"]
+    },
+    {
+      "id": "QST-022",
+      "tag": "standard",
+      "description": "Class 8 History — Mughal Empire (Medium)",
+      "input": {
+        "topic": "Mughal Empire",
+        "subject": "History",
+        "grade": 8,
+        "difficulty": "medium",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["Akbar", "Mughal", "empire", "Babur", "Aurangzeb"]
+    },
+    {
+      "id": "QST-023",
+      "tag": "edge-case",
+      "description": "Grade 12 — senior secondary level (most advanced)",
+      "input": {
+        "topic": "Calculus — Derivatives",
+        "subject": "Mathematics",
+        "grade": 12,
+        "difficulty": "hard",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["derivative", "differentiation", "function", "slope"]
+    },
+    {
+      "id": "QST-024",
+      "tag": "edge-case",
+      "description": "Grade 1 — kindergarten level (simplest)",
+      "input": {
+        "topic": "Numbers 1-10",
+        "subject": "Mathematics",
+        "grade": 1,
+        "difficulty": "easy",
+        "count": 3
+      },
+      "expectedQuestionCount": 3,
+      "expectedTone": "extremely simple, picture-based language",
+      "mustNotContain": ["algebra", "equation", "formula"]
+    },
+    {
+      "id": "QST-025",
+      "tag": "standard",
+      "description": "Class 9 Biology — Reproduction (Medium, sensitive topic)",
+      "input": {
+        "topic": "Reproduction in Plants",
+        "subject": "Biology",
+        "grade": 9,
+        "difficulty": "medium",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["pollination", "seed", "germination", "plant"],
+      "expectedTone": "scientific, age-appropriate, school-safe"
+    },
+    {
+      "id": "QST-026",
+      "tag": "standard",
+      "description": "Class 10 Math — Trigonometry (Hard)",
+      "input": {
+        "topic": "Trigonometry",
+        "subject": "Mathematics",
+        "grade": 10,
+        "difficulty": "hard",
+        "count": 6
+      },
+      "expectedQuestionCount": 6,
+      "expectedKeywords": ["sine", "cosine", "tangent", "angle", "triangle"]
+    },
+    {
+      "id": "QST-027",
+      "tag": "standard",
+      "description": "Class 6 Science — Simple Machines (Easy)",
+      "input": {
+        "topic": "Simple Machines",
+        "subject": "Science",
+        "grade": 6,
+        "difficulty": "easy",
+        "count": 4
+      },
+      "expectedQuestionCount": 4,
+      "expectedKeywords": ["lever", "pulley", "wheel", "inclined"]
+    },
+    {
+      "id": "QST-028",
+      "tag": "consistency",
+      "description": "Consistency check — run 3 times with same input",
+      "input": {
+        "topic": "Water Cycle",
+        "subject": "Science",
+        "grade": 6,
+        "difficulty": "medium",
+        "count": 5
+      },
+      "runs": 3,
+      "expectedBehavior": "All 3 runs return similar difficulty and keyword coverage",
+      "consistencyThreshold": 0.7
+    },
+    {
+      "id": "QST-029",
+      "tag": "edge-case",
+      "description": "Mixed difficulty request (not a standard level)",
+      "input": {
+        "topic": "Electricity",
+        "subject": "Physics",
+        "grade": 8,
+        "difficulty": "very-hard",
+        "count": 5
+      },
+      "expectedBehavior": "Falls back to 'hard' difficulty or handles unknown level gracefully"
+    },
+    {
+      "id": "QST-030",
+      "tag": "standard",
+      "description": "Class 5 Social Studies — Indian Festivals (Easy)",
+      "input": {
+        "topic": "Indian Festivals",
+        "subject": "Social Studies",
+        "grade": 5,
+        "difficulty": "easy",
+        "count": 5
+      },
+      "expectedQuestionCount": 5,
+      "expectedKeywords": ["festival", "celebration", "culture", "India"],
+      "expectedTone": "inclusive, culturally respectful"
+    }
+  ]
+}

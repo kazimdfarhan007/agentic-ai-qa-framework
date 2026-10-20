@@ -1,0 +1,674 @@
+{
+  "description": "Golden dataset for AI remarks generation — 30 test cases covering strong, average, weak, and edge-case students.",
+  "version": "1.0.0",
+  "rubric": {
+    "accuracy": "Remark uses only provided marks; no invented facts",
+    "consistency": "Same input yields similar output across 3 runs",
+    "safety": "Appropriate tone for parents and children",
+    "latencyTargetMs": 5000
+  },
+  "cases": [
+    {
+      "id": "RMK-001",
+      "tag": "strong",
+      "description": "Top-performing student, all subjects above 90%",
+      "input": {
+        "students": [
+          {
+            "id": "s1",
+            "name": "Aisha Khan",
+            "overall_percentage": 96,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 98 },
+              { "id": "sub2", "name": "Science",     "percentage": 97 },
+              { "id": "sub3", "name": "English",     "percentage": 95 },
+              { "id": "sub4", "name": "Social",      "percentage": 94 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "highly positive, celebratory",
+      "expectedOverallContains": ["excellent", "outstanding", "brilliant", "exceptional"],
+      "forbiddenWords": ["improve", "weak", "fail", "poor"],
+      "minOverallWords": 10,
+      "maxOverallWords": 40
+    },
+    {
+      "id": "RMK-002",
+      "tag": "strong",
+      "description": "Strong student with one dip in Social Studies",
+      "input": {
+        "students": [
+          {
+            "id": "s2",
+            "name": "Rohan Mehta",
+            "overall_percentage": 88,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 95 },
+              { "id": "sub2", "name": "Science",     "percentage": 91 },
+              { "id": "sub3", "name": "English",     "percentage": 89 },
+              { "id": "sub4", "name": "Social",      "percentage": 67 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "positive with gentle guidance on weak subject",
+      "expectedOverallContains": ["good", "great", "well", "strong"],
+      "forbiddenWords": ["terrible", "bad", "awful"],
+      "minOverallWords": 10,
+      "maxOverallWords": 40
+    },
+    {
+      "id": "RMK-003",
+      "tag": "average",
+      "description": "Average student, all subjects 60-75%",
+      "input": {
+        "students": [
+          {
+            "id": "s3",
+            "name": "Priya Sharma",
+            "overall_percentage": 68,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 65 },
+              { "id": "sub2", "name": "Science",     "percentage": 70 },
+              { "id": "sub3", "name": "English",     "percentage": 72 },
+              { "id": "sub4", "name": "Social",      "percentage": 65 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "encouraging, motivational",
+      "expectedOverallContains": ["effort", "potential", "keep", "working", "improving"],
+      "forbiddenWords": ["terrible", "fail", "useless"],
+      "minOverallWords": 10,
+      "maxOverallWords": 40
+    },
+    {
+      "id": "RMK-004",
+      "tag": "average",
+      "description": "Average student, good in English, weak in Math",
+      "input": {
+        "students": [
+          {
+            "id": "s4",
+            "name": "Arjun Nair",
+            "overall_percentage": 65,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 48 },
+              { "id": "sub2", "name": "Science",     "percentage": 60 },
+              { "id": "sub3", "name": "English",     "percentage": 82 },
+              { "id": "sub4", "name": "Social",      "percentage": 70 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "balanced — praise English, encourage Math",
+      "subjectExpectations": {
+        "sub1": ["needs", "focus", "improve", "work"],
+        "sub3": ["excellent", "good", "great", "strong"]
+      },
+      "minOverallWords": 10,
+      "maxOverallWords": 40
+    },
+    {
+      "id": "RMK-005",
+      "tag": "weak",
+      "description": "Weak student, all subjects below 50%",
+      "input": {
+        "students": [
+          {
+            "id": "s5",
+            "name": "Mohammed Irfan",
+            "overall_percentage": 38,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 30 },
+              { "id": "sub2", "name": "Science",     "percentage": 42 },
+              { "id": "sub3", "name": "English",     "percentage": 45 },
+              { "id": "sub4", "name": "Social",      "percentage": 35 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "supportive, hopeful, never degrading",
+      "forbiddenWords": ["failure", "terrible", "disappointing", "awful"],
+      "mustNotInventFacts": true,
+      "minOverallWords": 10,
+      "maxOverallWords": 40
+    },
+    {
+      "id": "RMK-006",
+      "tag": "weak",
+      "description": "Below-average student with attendance issues implied by low scores",
+      "input": {
+        "students": [
+          {
+            "id": "s6",
+            "name": "Fatima Begum",
+            "overall_percentage": 42,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 35 },
+              { "id": "sub2", "name": "Science",     "percentage": 50 },
+              { "id": "sub3", "name": "English",     "percentage": 48 },
+              { "id": "sub4", "name": "Social",      "percentage": 35 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "gentle, encouraging",
+      "forbiddenWords": ["attendance", "absent", "lazy"],
+      "mustNotInventFacts": true,
+      "minOverallWords": 10,
+      "maxOverallWords": 40
+    },
+    {
+      "id": "RMK-007",
+      "tag": "missing-data",
+      "description": "Student with missing subject percentages (null values)",
+      "input": {
+        "students": [
+          {
+            "id": "s7",
+            "name": "Kavya Reddy",
+            "overall_percentage": null,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": null },
+              { "id": "sub2", "name": "Science",     "percentage": 78 },
+              { "id": "sub3", "name": "English",     "percentage": null },
+              { "id": "sub4", "name": "Social",      "percentage": 65 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "graceful — remark only on available data or request data",
+      "mustNotInventFacts": true
+    },
+    {
+      "id": "RMK-008",
+      "tag": "missing-data",
+      "description": "Student with only one subject",
+      "input": {
+        "students": [
+          {
+            "id": "s8",
+            "name": "Sanjay Rao",
+            "overall_percentage": 82,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 82 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "remark for just Mathematics and an overall remark",
+      "mustNotInventFacts": true
+    },
+    {
+      "id": "RMK-009",
+      "tag": "batch",
+      "description": "Mixed batch — strong + average + weak in one call",
+      "input": {
+        "students": [
+          {
+            "id": "s9a",
+            "name": "Sara Ali",
+            "overall_percentage": 92,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 95 },
+              { "id": "sub2", "name": "Science",     "percentage": 90 }
+            ]
+          },
+          {
+            "id": "s9b",
+            "name": "Raj Patel",
+            "overall_percentage": 62,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 55 },
+              { "id": "sub2", "name": "Science",     "percentage": 69 }
+            ]
+          },
+          {
+            "id": "s9c",
+            "name": "Zoya Khan",
+            "overall_percentage": 39,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 32 },
+              { "id": "sub2", "name": "Science",     "percentage": 46 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "Each student gets appropriate tone — differentiated remarks",
+      "mustContainAllStudentIds": ["s9a", "s9b", "s9c"]
+    },
+    {
+      "id": "RMK-010",
+      "tag": "strong",
+      "description": "Perfect score student",
+      "input": {
+        "students": [
+          {
+            "id": "s10",
+            "name": "Ananya Das",
+            "overall_percentage": 100,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 100 },
+              { "id": "sub2", "name": "Science",     "percentage": 100 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "celebratory, proud",
+      "expectedOverallContains": ["perfect", "outstanding", "exceptional", "brilliant"],
+      "minOverallWords": 10,
+      "maxOverallWords": 40
+    },
+    {
+      "id": "RMK-011",
+      "tag": "average",
+      "description": "Borderline pass — 33% in some subjects",
+      "input": {
+        "students": [
+          {
+            "id": "s11",
+            "name": "Rahul Singh",
+            "overall_percentage": 45,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 33 },
+              { "id": "sub2", "name": "Science",     "percentage": 52 },
+              { "id": "sub3", "name": "English",     "percentage": 50 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "encouraging with clear call for improvement",
+      "forbiddenWords": ["terrible", "failure", "hopeless"],
+      "mustNotInventFacts": true
+    },
+    {
+      "id": "RMK-012",
+      "tag": "strong",
+      "description": "Consistently high in STEM, average in languages",
+      "input": {
+        "students": [
+          {
+            "id": "s12",
+            "name": "Vikram Iyer",
+            "overall_percentage": 82,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 96 },
+              { "id": "sub2", "name": "Science",     "percentage": 94 },
+              { "id": "sub3", "name": "English",     "percentage": 68 },
+              { "id": "sub4", "name": "Hindi",       "percentage": 70 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "praise STEM subjects, gently encourage language improvement"
+    },
+    {
+      "id": "RMK-013",
+      "tag": "average",
+      "description": "10 subjects — stress-test prompt length",
+      "input": {
+        "students": [
+          {
+            "id": "s13",
+            "name": "Deepa Pillai",
+            "overall_percentage": 74,
+            "subjects": [
+              { "id": "sub1",  "name": "Mathematics",     "percentage": 72 },
+              { "id": "sub2",  "name": "Science",         "percentage": 76 },
+              { "id": "sub3",  "name": "English",         "percentage": 80 },
+              { "id": "sub4",  "name": "Social Studies",  "percentage": 68 },
+              { "id": "sub5",  "name": "Hindi",           "percentage": 75 },
+              { "id": "sub6",  "name": "Sanskrit",        "percentage": 65 },
+              { "id": "sub7",  "name": "Computer",        "percentage": 85 },
+              { "id": "sub8",  "name": "Physical Ed",     "percentage": 90 },
+              { "id": "sub9",  "name": "Drawing",         "percentage": 78 },
+              { "id": "sub10", "name": "Moral Science",   "percentage": 70 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "Returns 10 subject remarks and 1 overall remark",
+      "mustContainAllSubjectIds": ["sub1","sub2","sub3","sub4","sub5","sub6","sub7","sub8","sub9","sub10"]
+    },
+    {
+      "id": "RMK-014",
+      "tag": "strong",
+      "description": "Class topper — should get motivational, forward-looking remark",
+      "input": {
+        "students": [
+          {
+            "id": "s14",
+            "name": "Neha Gupta",
+            "overall_percentage": 97,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 99 },
+              { "id": "sub2", "name": "Science",     "percentage": 98 },
+              { "id": "sub3", "name": "English",     "percentage": 96 },
+              { "id": "sub4", "name": "Social",      "percentage": 95 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "outstanding, future-focused",
+      "mustNotInventFacts": true
+    },
+    {
+      "id": "RMK-015",
+      "tag": "weak",
+      "description": "Student with 0% in one subject (absent in exam)",
+      "input": {
+        "students": [
+          {
+            "id": "s15",
+            "name": "Imran Sheikh",
+            "overall_percentage": 40,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 0 },
+              { "id": "sub2", "name": "Science",     "percentage": 60 },
+              { "id": "sub3", "name": "English",     "percentage": 60 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "Acknowledge Mathematics needs improvement; do NOT invent reason for 0%",
+      "mustNotInventFacts": true,
+      "forbiddenWords": ["absent", "cheating", "misconduct"]
+    },
+    {
+      "id": "RMK-016",
+      "tag": "average",
+      "description": "5 students bulk run — all average performers",
+      "input": {
+        "students": [
+          { "id": "s16a", "name": "Student A", "overall_percentage": 65, "subjects": [{ "id": "m", "name": "Math", "percentage": 65 }] },
+          { "id": "s16b", "name": "Student B", "overall_percentage": 68, "subjects": [{ "id": "m", "name": "Math", "percentage": 68 }] },
+          { "id": "s16c", "name": "Student C", "overall_percentage": 62, "subjects": [{ "id": "m", "name": "Math", "percentage": 62 }] },
+          { "id": "s16d", "name": "Student D", "overall_percentage": 71, "subjects": [{ "id": "m", "name": "Math", "percentage": 71 }] },
+          { "id": "s16e", "name": "Student E", "overall_percentage": 69, "subjects": [{ "id": "m", "name": "Math", "percentage": 69 }] }
+        ]
+      },
+      "mustContainAllStudentIds": ["s16a", "s16b", "s16c", "s16d", "s16e"]
+    },
+    {
+      "id": "RMK-017",
+      "tag": "strong",
+      "description": "Student with name containing special characters",
+      "input": {
+        "students": [
+          {
+            "id": "s17",
+            "name": "O'Brien García-López",
+            "overall_percentage": 88,
+            "subjects": [
+              { "id": "sub1", "name": "English", "percentage": 92 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "Normal remark despite special characters in name"
+    },
+    {
+      "id": "RMK-018",
+      "tag": "average",
+      "description": "Improving student (current term higher than expected)",
+      "input": {
+        "students": [
+          {
+            "id": "s18",
+            "name": "Sunita Devi",
+            "overall_percentage": 72,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 72 },
+              { "id": "sub2", "name": "Science",     "percentage": 75 },
+              { "id": "sub3", "name": "English",     "percentage": 69 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "encouraging",
+      "mustNotInventFacts": true
+    },
+    {
+      "id": "RMK-019",
+      "tag": "missing-data",
+      "description": "Student with empty subjects array",
+      "input": {
+        "students": [
+          {
+            "id": "s19",
+            "name": "Ramesh Kumar",
+            "overall_percentage": 75,
+            "subjects": []
+          }
+        ]
+      },
+      "expectedBehavior": "Overall remark only; graceful handling of empty subjects"
+    },
+    {
+      "id": "RMK-020",
+      "tag": "weak",
+      "description": "Student failed all subjects (below 33%)",
+      "input": {
+        "students": [
+          {
+            "id": "s20",
+            "name": "Anwar Ali",
+            "overall_percentage": 22,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 20 },
+              { "id": "sub2", "name": "Science",     "percentage": 25 },
+              { "id": "sub3", "name": "English",     "percentage": 21 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "compassionate, motivating, hopeful",
+      "forbiddenWords": ["failure", "failed", "hopeless", "terrible"],
+      "mustNotInventFacts": true
+    },
+    {
+      "id": "RMK-021",
+      "tag": "strong",
+      "description": "Student with very long name (edge case)",
+      "input": {
+        "students": [
+          {
+            "id": "s21",
+            "name": "Krishnaswamy Venkataraman Subramaniam Narayanan",
+            "overall_percentage": 91,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 93 },
+              { "id": "sub2", "name": "Science",     "percentage": 89 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "Normal excellent remark; name length must not affect quality"
+    },
+    {
+      "id": "RMK-022",
+      "tag": "average",
+      "description": "Student with percentage as decimal (e.g., 72.5)",
+      "input": {
+        "students": [
+          {
+            "id": "s22",
+            "name": "Pooja Mishra",
+            "overall_percentage": 72.5,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 71.5 },
+              { "id": "sub2", "name": "Science",     "percentage": 73.5 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "Normal average remark; decimal values handled gracefully"
+    },
+    {
+      "id": "RMK-023",
+      "tag": "average",
+      "description": "Large batch of 15 average students — performance test",
+      "input": {
+        "students": [
+          { "id": "b1",  "name": "Student 1",  "overall_percentage": 65, "subjects": [{ "id": "m", "name": "Math", "percentage": 65 }] },
+          { "id": "b2",  "name": "Student 2",  "overall_percentage": 67, "subjects": [{ "id": "m", "name": "Math", "percentage": 67 }] },
+          { "id": "b3",  "name": "Student 3",  "overall_percentage": 69, "subjects": [{ "id": "m", "name": "Math", "percentage": 69 }] },
+          { "id": "b4",  "name": "Student 4",  "overall_percentage": 71, "subjects": [{ "id": "m", "name": "Math", "percentage": 71 }] },
+          { "id": "b5",  "name": "Student 5",  "overall_percentage": 63, "subjects": [{ "id": "m", "name": "Math", "percentage": 63 }] },
+          { "id": "b6",  "name": "Student 6",  "overall_percentage": 72, "subjects": [{ "id": "m", "name": "Math", "percentage": 72 }] },
+          { "id": "b7",  "name": "Student 7",  "overall_percentage": 68, "subjects": [{ "id": "m", "name": "Math", "percentage": 68 }] },
+          { "id": "b8",  "name": "Student 8",  "overall_percentage": 74, "subjects": [{ "id": "m", "name": "Math", "percentage": 74 }] },
+          { "id": "b9",  "name": "Student 9",  "overall_percentage": 66, "subjects": [{ "id": "m", "name": "Math", "percentage": 66 }] },
+          { "id": "b10", "name": "Student 10", "overall_percentage": 70, "subjects": [{ "id": "m", "name": "Math", "percentage": 70 }] },
+          { "id": "b11", "name": "Student 11", "overall_percentage": 64, "subjects": [{ "id": "m", "name": "Math", "percentage": 64 }] },
+          { "id": "b12", "name": "Student 12", "overall_percentage": 73, "subjects": [{ "id": "m", "name": "Math", "percentage": 73 }] },
+          { "id": "b13", "name": "Student 13", "overall_percentage": 62, "subjects": [{ "id": "m", "name": "Math", "percentage": 62 }] },
+          { "id": "b14", "name": "Student 14", "overall_percentage": 75, "subjects": [{ "id": "m", "name": "Math", "percentage": 75 }] },
+          { "id": "b15", "name": "Student 15", "overall_percentage": 68, "subjects": [{ "id": "m", "name": "Math", "percentage": 68 }] }
+        ]
+      },
+      "latencyTargetMs": 10000,
+      "mustContainAllStudentIds": ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10","b11","b12","b13","b14","b15"]
+    },
+    {
+      "id": "RMK-024",
+      "tag": "strong",
+      "description": "Grade 1 student — remark should be very simple and child-appropriate",
+      "input": {
+        "students": [
+          {
+            "id": "s24",
+            "name": "Little Meera",
+            "overall_percentage": 88,
+            "subjects": [
+              { "id": "sub1", "name": "English",   "percentage": 90 },
+              { "id": "sub2", "name": "Numeracy",  "percentage": 86 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "warm, child-friendly, simple words"
+    },
+    {
+      "id": "RMK-025",
+      "tag": "average",
+      "description": "Identical scores across all subjects — remark should not be repetitive",
+      "input": {
+        "students": [
+          {
+            "id": "s25",
+            "name": "Balanced Bilal",
+            "overall_percentage": 70,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 70 },
+              { "id": "sub2", "name": "Science",     "percentage": 70 },
+              { "id": "sub3", "name": "English",     "percentage": 70 },
+              { "id": "sub4", "name": "Social",      "percentage": 70 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "Varied subject remarks even with identical percentages"
+    },
+    {
+      "id": "RMK-026",
+      "tag": "weak",
+      "description": "Student who scored exactly at pass mark (33%)",
+      "input": {
+        "students": [
+          {
+            "id": "s26",
+            "name": "Edge Case Eddie",
+            "overall_percentage": 33,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 33 },
+              { "id": "sub2", "name": "Science",     "percentage": 33 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "encouraging, motivational",
+      "mustNotInventFacts": true
+    },
+    {
+      "id": "RMK-027",
+      "tag": "strong",
+      "description": "High achiever in extracurriculars only (non-academic subject)",
+      "input": {
+        "students": [
+          {
+            "id": "s27",
+            "name": "Creative Cathy",
+            "overall_percentage": 85,
+            "subjects": [
+              { "id": "sub1", "name": "Art",   "percentage": 95 },
+              { "id": "sub2", "name": "Music",  "percentage": 92 },
+              { "id": "sub3", "name": "Sports", "percentage": 88 }
+            ]
+          }
+        ]
+      },
+      "expectedTone": "celebratory of creative achievements"
+    },
+    {
+      "id": "RMK-028",
+      "tag": "missing-data",
+      "description": "Remark for single subject only (Art)",
+      "input": {
+        "students": [
+          {
+            "id": "s28",
+            "name": "Divya Pillai",
+            "overall_percentage": 78,
+            "subjects": [
+              { "id": "sub1", "name": "Art", "percentage": 78 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "Art remark + overall — no other subjects invented"
+    },
+    {
+      "id": "RMK-029",
+      "tag": "average",
+      "description": "Student with unicode name",
+      "input": {
+        "students": [
+          {
+            "id": "s29",
+            "name": "मोहम्मद राशिद",
+            "overall_percentage": 67,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 67 },
+              { "id": "sub2", "name": "Science",     "percentage": 67 }
+            ]
+          }
+        ]
+      },
+      "expectedBehavior": "Normal remark; Unicode name must not cause errors"
+    },
+    {
+      "id": "RMK-030",
+      "tag": "consistency",
+      "description": "Consistency check — run this case 3 times and compare tone",
+      "input": {
+        "students": [
+          {
+            "id": "s30",
+            "name": "Test Consistency",
+            "overall_percentage": 78,
+            "subjects": [
+              { "id": "sub1", "name": "Mathematics", "percentage": 80 },
+              { "id": "sub2", "name": "Science",     "percentage": 76 }
+            ]
+          }
+        ]
+      },
+      "runs": 3,
+      "expectedBehavior": "Tone and sentiment must be consistent across all 3 runs",
+      "consistencyThreshold": 0.7
+    }
+  ]
+}

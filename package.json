@@ -1,0 +1,43 @@
+{
+  "name": "agentic-ai-qa-framework",
+  "version": "1.0.0",
+  "description": "Enterprise test automation & quality framework for Agentic AI, Model Context Protocol (MCP), and LLM Observability.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run --reporter=verbose",
+    "test:mcp": "vitest run tests/unit/mcp-server.test.ts --reporter=verbose",
+    "test:ai-eval": "vitest run tests/unit/ai-remarks-golden.test.ts tests/unit/ai-questions-golden.test.ts --reporter=verbose",
+    "test:adversarial": "vitest run tests/unit/ai-remarks-adversarial.test.ts --reporter=verbose",
+    "test:e2e": "playwright test",
+    "test:e2e:mcp": "playwright test tests/e2e/ai/remarks-mcp.spec.ts",
+    "mcp:start": "tsx src/mcp/school-mcp-server.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "agentic-ai",
+    "mcp",
+    "model-context-protocol",
+    "playwright",
+    "vitest",
+    "langfuse",
+    "observability",
+    "qa-automation",
+    "prompt-injection",
+    "golden-dataset"
+  ],
+  "author": "Kazi Md Farhan",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "langfuse": "^3.39.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "@types/node": "^20.17.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.10"
+  }
+}
